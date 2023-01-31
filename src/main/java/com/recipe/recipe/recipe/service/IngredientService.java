@@ -5,8 +5,8 @@ import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.recipe.recipe.recipe.model.Ingredient;
-import com.recipe.recipe.recipe.model.Recipe;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -81,5 +81,23 @@ public class IngredientService {
 
     public Map<Long, Ingredient> getAll() {
         return new HashMap<>(ingredients);
+    }
+
+    @Nullable
+    public byte[] download() {
+        try {
+            return Files.readAllBytes(pathToFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public void importData(byte[] data) {
+        try {
+            Files.write(pathToFile, data);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
