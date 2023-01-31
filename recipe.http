@@ -1,0 +1,23 @@
+POST http://localhost:8080/recipe
+Content-Type: application/json
+
+{
+  "title": "Яичница",
+  "cookingTime": 3,
+  "ingredients": [
+    { "title": "Яйца",
+      "amount": 2,
+      "measureUnit": "шт."
+  }
+  ],
+  "steps": [
+    "Разбить яйца",
+    "Вылить на горячую сковородку",
+    "Посолить"]
+
+}
+###
+GET http://localhost:8080/recipe/1
+Content-Type: application/json
+
+
