@@ -1,0 +1,30 @@
+POST http://localhost:8080/recipe
+Content-Type: application/json
+
+{
+  "title": "Яичница",
+  "cookingTime": 3,
+  "ingredients": [
+    { "title": "Яйца",
+      "amount": 2,
+      "measureUnit": "шт."
+  }
+  ],
+  "steps": [
+    "Разбить яйца",
+    "Вылить на горячую сковородку",
+    "Посолить"]
+
+}
+
+###
+
+POST http://localhost:8080/recipe/import
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="inport.json"
+Content-Type: application/json
+
+< ./import.json
+--WebAppBoundary--
