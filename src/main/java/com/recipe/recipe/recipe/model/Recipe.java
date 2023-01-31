@@ -1,7 +1,14 @@
 package com.recipe.recipe.recipe.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.List;
 import java.util.Objects;
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 
 public class Recipe {
     private String title;
@@ -9,15 +16,25 @@ public class Recipe {
     private List<Ingredient> ingredients;
     private List<String> steps;
 
-    public Recipe(String title) {
-        this.title = title;
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(title).append("\n")
+                .append(" Время приготовления: ").append(cookingTime).append("минут").append("\n")
+                .append(" Ингридиенты: ").append("\n");
+        for (Ingredient ingredient: ingredients){
+            stringBuilder.append(" • ").append(ingredient).append("\n");
+        }
+        stringBuilder.append("Инструкция приготовления: ").append("\n");
+        int counter = 1;
+        for (String step : steps) {
+            stringBuilder.append(counter++).append(". ").append(step).append("\n");
+        }
+        return stringBuilder.toString();
     }
 
-    public Recipe(String title, int cookingTime, List<Ingredient> ingredients, List<String> steps) {
+    public Recipe(String title) {
         this.title = title;
-        this.cookingTime = cookingTime;
-        this.ingredients = ingredients;
-        this.steps = steps;
     }
 
     public String getTitle() {

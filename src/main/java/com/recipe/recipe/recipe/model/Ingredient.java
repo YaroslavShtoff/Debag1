@@ -1,20 +1,25 @@
 package com.recipe.recipe.recipe.model;
 
-import java.util.Objects;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.util.Objects;
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Ingredient {
     private String title;
     private int amount;
     private String measureUnit;
 
-    public Ingredient(String title) {
-        this.title = title;
+    @Override
+    public String toString() {
+        return title + " - " + amount + " " + measureUnit;
     }
 
-    public Ingredient(String title, int amount, String measureUnit) {
+    public Ingredient(String title) {
         this.title = title;
-        this.amount = amount;
-        this.measureUnit = measureUnit;
     }
 
     public String getTitle() {

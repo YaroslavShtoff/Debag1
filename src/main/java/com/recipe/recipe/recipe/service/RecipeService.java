@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -34,6 +35,10 @@ public class RecipeService {
 
     @PostConstruct
     public void init() {
+       readFromFile();
+    }
+
+    private void readFromFile() {
         try {
             Map<Long, Recipe> fromFile = objectMapper.readValue(Files.readAllBytes(pathToFile),
                     new TypeReference<>() {
@@ -42,6 +47,7 @@ public class RecipeService {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
     public void writeToFile() {
@@ -83,6 +89,14 @@ public class RecipeService {
 
     @Nullable
     public byte[] download() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Recipe recipe : recipes.values()) {
+            stringBuilder.append(recipe).append("\n").append("-----------------").append("\n");
+        }
+        return stringBuilder.toString().getBytes(StandardCharsets.UTF_8);
+    }
+    @Nullable
+    public byte[] export() {
         try {
             return Files.readAllBytes(pathToFile);
         } catch (IOException e) {
@@ -94,6 +108,7 @@ public class RecipeService {
     public void importData(byte[] data) {
         try {
             Files.write(pathToFile, data);
+            readFromFile();
         } catch (IOException e) {
             e.printStackTrace();
         }

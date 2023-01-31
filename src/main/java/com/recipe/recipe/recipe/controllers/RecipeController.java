@@ -1,6 +1,5 @@
 package com.recipe.recipe.recipe.controllers;
 
-import com.recipe.recipe.recipe.model.Recipe;
 import com.recipe.recipe.recipe.service.RecipeService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -9,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/recipe")
@@ -20,7 +18,7 @@ public class RecipeController {
         this.recipeService = recipeService;
     }
 
-    @PostMapping
+  /*  @PostMapping
     public Recipe add(@RequestBody Recipe recipe) {
         return recipeService.add(recipe);
     }
@@ -43,10 +41,23 @@ public class RecipeController {
     @GetMapping
     public Map<Long, Recipe> getAll() {
         return recipeService.getAll();
-    }
+    }*/
     @GetMapping("/download")
     public ResponseEntity<byte[]> download(){
         byte[] data = recipeService.download();
+        if (data == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok()
+                .contentLength(data.length)
+                .contentType(MediaType.TEXT_PLAIN)
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"recipes.txt\"")
+                .body(data);
+    }
+
+    @GetMapping("/export")
+    public ResponseEntity<byte[]> export(){
+        byte[] data = recipeService.export();
         if (data == null) {
             return ResponseEntity.badRequest().build();
         }
