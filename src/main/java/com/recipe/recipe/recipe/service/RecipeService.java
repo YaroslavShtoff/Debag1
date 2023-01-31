@@ -6,10 +6,10 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.recipe.recipe.recipe.model.Recipe;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -79,5 +79,23 @@ public class RecipeService {
 
     public Map<Long, Recipe> getAll() {
         return new HashMap<>(recipes);
+    }
+
+    @Nullable
+    public byte[] download() {
+        try {
+            return Files.readAllBytes(pathToFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public void importData(byte[] data) {
+        try {
+            Files.write(pathToFile, data);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

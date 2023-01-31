@@ -16,8 +16,15 @@ Content-Type: application/json
     "Посолить"]
 
 }
+
 ###
-GET http://localhost:8080/recipe/1
+
+POST http://localhost:8080/recipe/import
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="inport.json"
 Content-Type: application/json
 
-
+< ./import.json
+--WebAppBoundary--
